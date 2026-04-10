@@ -14,7 +14,7 @@ WORKDIR /opt/hermes
 
 # Install uv for fast dependency resolution, then install Python and Node dependencies
 RUN pip install uv --break-system-packages && \
-    uv pip install --system --no-cache -e ".[all]" && \
+    uv pip install --system --no-cache --break-system-packages -e ".[all]" && \
     npm install --prefer-offline --no-audit && \
     npx playwright install --with-deps chromium --only-shell && \
     cd /opt/hermes/scripts/whatsapp-bridge && \
