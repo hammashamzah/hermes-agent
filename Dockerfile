@@ -12,8 +12,9 @@ RUN apt-get update && \
 COPY . /opt/hermes
 WORKDIR /opt/hermes
 
-# Install Python and Node dependencies in one layer, no cache
-RUN pip install --no-cache-dir -e ".[all]" --break-system-packages && \
+# Install uv for fast dependency resolution, then install Python and Node dependencies
+RUN pip install uv --break-system-packages && \
+    uv pip install --system --no-cache -e ".[all]" && \
     npm install --prefer-offline --no-audit && \
     npx playwright install --with-deps chromium --only-shell && \
     cd /opt/hermes/scripts/whatsapp-bridge && \
